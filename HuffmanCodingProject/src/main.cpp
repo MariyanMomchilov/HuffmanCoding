@@ -1,20 +1,21 @@
-#define TESTS 1
-#define DEBUG 1
+#define TEST_MODE 1
+#define DEBUG_MODE 1
 
-#if DEBUG
+#if DEBUG_MODE
 #include "PriorityQueue.cpp"
+#include "HuffmanTree.cpp"
 #else
 #include "../include/Node.h"
 #include "../include/PriorityQueue.h"
 #endif
 
-#if TESTS
+#if TEST_MODE
 #include "tests.cpp"
 #endif
 
 int main()
 {
-#if TESTS
+#if TEST_MODE
     doctest::Context().run();
 #else
     // "production" code

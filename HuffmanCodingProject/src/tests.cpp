@@ -2,6 +2,7 @@
 #include "../include/doctest.h"
 #include "../include/Node.h"
 #include "../include/PriorityQueue.h"
+#include "../include/HuffmanTree.h"
 
 TEST_CASE("Priority Q")
 {
@@ -22,10 +23,9 @@ TEST_CASE("Priority Q")
     CHECK(pq.peek()->key == 5);
 }
 
-
-TEST_CASE("Priority Q2")
+TEST_CASE("Huffman tree")
 {
     std::vector<Node *> buff{new Node{'A', 5, nullptr, nullptr}, new Node{'B', 2, nullptr, nullptr}, new Node{'R', 2, nullptr, nullptr}, new Node{'C', 1, nullptr, nullptr}, new Node{'D', 1, nullptr, nullptr}};
     PriorityQueue pq(buff);
-
- }
+    HuffmanTree tree(pq);
+}

@@ -1,15 +1,15 @@
 #ifndef _NODE
 #define _NODE
 
-class PriorityQueue;
+//class PriorityQueue;
+//class HuffmanTree;
 
 struct Node
 {
-    //private:
-    friend class PriorityQueue;
     char asciiSymbol;
     unsigned key;
-    Node *left, *right;
+    Node *left;
+    Node *right;
 };
 
 #endif
