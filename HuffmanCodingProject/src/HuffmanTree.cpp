@@ -1,5 +1,5 @@
 #include "../include/HuffmanTree.h"
-
+#include <stdexcept>
 HuffmanTree::HuffmanTree(PriorityQueue &queue) : root(nullptr)
 {
     Node *child1;
@@ -14,6 +14,73 @@ HuffmanTree::HuffmanTree(PriorityQueue &queue) : root(nullptr)
             break;
         }
         child2 = queue.peekPop();
-        queue.insert(new Node{'a', child1->key + child2->key, child1, child2});
+        queue.insert(new Node{'!', child1->key + child2->key, child1, child2});
     }
+}
+
+void HuffmanTree::clear(Node *node)
+{
+    if (node == nullptr)
+        return;
+
+    clear(node->left);
+    clear(node->right);
+    delete node;
+}
+
+std::string HuffmanTree::search(Node *node, char s, bool &valid) const
+{
+    if (node == nullptr)
+    {
+        valid = false;
+        return "";
+    }
+
+    if (node->asciiSymbol == s && node->left == nullptr && node->right == nullptr)
+    {
+        valid = true;
+        return "";
+    }
+
+    bool l = true;
+    bool r = true;
+    std::string leftRes = "0" + search(node->left, s, l);
+    if (l)
+        return leftRes;
+    std::string rightRes = "1" + search(node->right, s, r);
+    if (r)
+        return rightRes;
+
+    valid = false;
+    return "";
+}
+
+std::string HuffmanTree::getEncoded(char s) const
+{
+    bool valid = true;
+    std::string encoded = search(root, s, valid);
+    if (encoded == "")
+        throw std::logic_error("Node with symbol \'s\' is not in the tree!\n");
+    return encoded;
+}
+
+char HuffmanTree::getDecoded(const char *s) const
+{
+    Node *crr = root;
+    while (crr != nullptr && *s)
+    {
+        if (*s == '0')
+            crr = crr->left;
+        else
+            crr = crr->right;
+        s++;
+    }
+    if (crr == nullptr)
+        throw std::logic_error("Node not found! The program assumes valid \'s\' path!\n");
+
+    return crr->asciiSymbol;
+}
+HuffmanTree::~HuffmanTree()
+{
+    clear(root);
 }

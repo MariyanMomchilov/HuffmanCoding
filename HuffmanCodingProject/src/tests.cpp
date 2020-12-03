@@ -28,6 +28,26 @@ TEST_CASE("Huffman tree")
     std::vector<Node *> buff{new Node{'A', 5, nullptr, nullptr}, new Node{'B', 2, nullptr, nullptr}, new Node{'R', 2, nullptr, nullptr}, new Node{'C', 1, nullptr, nullptr}, new Node{'D', 1, nullptr, nullptr}};
     PriorityQueue pq(buff);
     HuffmanTree tree(pq);
+    std::string encodedA = tree.getEncoded('A');
+    char decodedA = tree.getDecoded(encodedA.c_str());
+    std::string encodedB = tree.getEncoded('B');
+    char decodedB = tree.getDecoded(encodedB.c_str());
+    std::string encodedC = tree.getEncoded('C');
+    char decodedC = tree.getDecoded(encodedC.c_str());
+    std::string encodedR = tree.getEncoded('R');
+    char decodedR = tree.getDecoded(encodedR.c_str());
+    std::string encodedD = tree.getEncoded('D');
+    char decodedD = tree.getDecoded(encodedD.c_str());
+    CHECK(encodedA == "0");
+    CHECK(encodedB == "110");
+    CHECK(encodedC == "1110");
+    CHECK(encodedD == "1111");
+    CHECK(encodedR == "10");
+    CHECK(decodedA == 'A');
+    CHECK(decodedB == 'B');
+    CHECK(decodedC == 'C');
+    CHECK(decodedD == 'D');
+    CHECK(decodedR == 'R');
 }
 
 TEST_CASE("Huffman code")
