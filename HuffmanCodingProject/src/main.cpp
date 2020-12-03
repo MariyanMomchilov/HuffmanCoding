@@ -4,9 +4,12 @@
 #if DEBUG_MODE
 #include "PriorityQueue.cpp"
 #include "HuffmanTree.cpp"
+#include "HuffmanCode.cpp"
 #else
 #include "../include/Node.h"
 #include "../include/PriorityQueue.h"
+#include "../include/HuffmanTree.h"
+#include "../include/HuffmanCode.h"
 #endif
 
 #if TEST_MODE
@@ -19,7 +22,7 @@ int main()
     doctest::Context().run();
 #else
     // "production" code
-    00;
+    00; 
 #endif
 
     return 0;

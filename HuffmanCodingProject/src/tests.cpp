@@ -29,3 +29,15 @@ TEST_CASE("Huffman tree")
     PriorityQueue pq(buff);
     HuffmanTree tree(pq);
 }
+
+TEST_CASE("Huffman code")
+{
+    HuffmanCode hc("ABRACADABRA");
+}
+
+TEST_CASE("Huffman code2")
+{
+    std::ifstream in("test.txt");
+    bool op = in.is_open();
+    HuffmanCode hc(in);
+}
