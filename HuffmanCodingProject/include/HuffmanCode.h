@@ -3,16 +3,26 @@
 #include "HuffmanTree.h"
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
+
+using HuffmanTable = std::unordered_map<char, std::string>;
 
 class HuffmanCode
 {
 private:
-    HuffmanTree *tree; //consider removig this field
-    unsigned *getFrequencies(const char *src);
+    HuffmanTree *tree;
+    std::istream &input;
+    std::ostream &output;
+
+    std::string extractSrc();
+    unsigned *getFrequencies(const char *src) const;
+    std::vector<Node *> createLeaves(unsigned *table) const;
+    HuffmanTable getEncodedTable(std::vector<Node *> &leaves) const;
 
 public:
-    HuffmanCode(const char *src);
-    HuffmanCode(std::istream &input = std::cin);
+    HuffmanCode(std::istream &in = std::cin, std::ostream &out = std::cout);
+    void encode();
+    void decode(); // TO DO
 
     ~HuffmanCode();
 };

@@ -41,7 +41,10 @@ std::string HuffmanTree::search(Node *node, char s, bool &valid) const
 
     if (node->asciiSymbol == s && node->left == nullptr && node->right == nullptr)
     {
+
         valid = true;
+        if (node == root)
+            return "0";
         return "";
     }
 
@@ -104,26 +107,21 @@ void HuffmanTree::toScheme(std::ostream &os) const
 
 Node *HuffmanTree::fromSchemeRec(std::istream &is)
 {
-    assert(is.peek() == '(');
-    is.get();
-    if (is.peek() == ')')
-    {
-        is.get();
+    assert(is.get() == '(');
+    char peeked = is.get();
+    if (peeked == ')')
         return nullptr;
-    }
-    assert(is.peek() == '{');
-    is.get();
+
+    assert(peeked == '{');
     char ascii;
     unsigned key;
     is >> ascii;
     is.get();
     is >> key;
-    assert(is.peek() == '}');
-    is.get();
+    assert(is.get() == '}');
     is.get();
     Node *node = new Node{ascii, key, fromSchemeRec(is), fromSchemeRec(is)};
-    assert(is.peek() == ')');
-    is.get();
+    assert(is.get() == ')');
     return node;
 }
 

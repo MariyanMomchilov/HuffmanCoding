@@ -3,6 +3,7 @@
 #include "../include/Node.h"
 #include "../include/PriorityQueue.h"
 #include "../include/HuffmanTree.h"
+#include "../include/HuffmanCode.h"
 
 TEST_CASE("Priority Q")
 {
@@ -57,14 +58,47 @@ TEST_CASE("Huffman tree")
     in.close();
 }
 
+//TEST_CASE("Huffman code")
+//{
+//    HuffmanCode hc("ABRACADABRA");
+//}
+
 TEST_CASE("Huffman code")
 {
-    HuffmanCode hc("ABRACADABRA");
+    std::ifstream in("test.txt");
+    std::ofstream out("testOut.txt");
+    HuffmanCode hc(in, out);
+    hc.encode();
+    in.close();
+    out.close();
 }
 
 TEST_CASE("Huffman code2")
 {
-    std::ifstream in("test.txt");
-    bool op = in.is_open();
-    HuffmanCode hc(in);
+    std::ifstream in("test2.txt");
+    std::ofstream out("testOut2.txt");
+    HuffmanCode hc(in, out);
+    hc.encode();
+    in.close();
+    out.close();
+}
+
+TEST_CASE("Huffman code3")
+{
+    std::ifstream in("test3.txt");
+    std::ofstream out("testOut3.txt");
+    HuffmanCode hc(in, out);
+    hc.encode();
+    in.close();
+    out.close();
+}
+
+TEST_CASE("Huffman code4")
+{
+    std::ifstream in("test4.txt");
+    std::ofstream out("testOut4.txt");
+    HuffmanCode hc(in, out);
+    hc.encode();
+    in.close();
+    out.close();
 }
