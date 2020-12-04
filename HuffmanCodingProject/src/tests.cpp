@@ -48,6 +48,13 @@ TEST_CASE("Huffman tree")
     CHECK(decodedC == 'C');
     CHECK(decodedD == 'D');
     CHECK(decodedR == 'R');
+
+    std::ofstream out("scheme.txt");
+    tree.toScheme(out);
+    out.close();
+    std::ifstream in("scheme.txt");
+    tree.fromScheme(in);
+    in.close();
 }
 
 TEST_CASE("Huffman code")

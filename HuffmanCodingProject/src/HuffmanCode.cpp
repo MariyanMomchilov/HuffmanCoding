@@ -1,6 +1,6 @@
 #include "../include/HuffmanCode.h"
 #include <cassert>
-    
+
 unsigned *HuffmanCode::getFrequencies(const char *src)
 {
     unsigned *freqTable = new unsigned[256];

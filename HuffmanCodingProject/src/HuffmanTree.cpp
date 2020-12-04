@@ -1,5 +1,8 @@
 #include "../include/HuffmanTree.h"
 #include <stdexcept>
+#include <fstream>
+#include <cassert>
+
 HuffmanTree::HuffmanTree(PriorityQueue &queue) : root(nullptr)
 {
     Node *child1;
@@ -80,6 +83,56 @@ char HuffmanTree::getDecoded(const char *s) const
 
     return crr->asciiSymbol;
 }
+
+void HuffmanTree::toScheme(std::ostream &os, Node *node) const
+{
+    if (node == nullptr)
+        os << "()";
+    else
+    {
+        os << "({" << node->asciiSymbol << ", " << node->key << "} ";
+        toScheme(os, node->left);
+        toScheme(os, node->right);
+        os << ')';
+    }
+}
+
+void HuffmanTree::toScheme(std::ostream &os) const
+{
+    toScheme(os, root);
+}
+
+Node *HuffmanTree::fromSchemeRec(std::istream &is)
+{
+    assert(is.peek() == '(');
+    is.get();
+    if (is.peek() == ')')
+    {
+        is.get();
+        return nullptr;
+    }
+    assert(is.peek() == '{');
+    is.get();
+    char ascii;
+    unsigned key;
+    is >> ascii;
+    is.get();
+    is >> key;
+    assert(is.peek() == '}');
+    is.get();
+    is.get();
+    Node *node = new Node{ascii, key, fromSchemeRec(is), fromSchemeRec(is)};
+    assert(is.peek() == ')');
+    is.get();
+    return node;
+}
+
+void HuffmanTree::fromScheme(std::istream &is)
+{
+    clear(root);
+    root = fromSchemeRec(is);
+}
+
 HuffmanTree::~HuffmanTree()
 {
     clear(root);

@@ -7,13 +7,13 @@
 class HuffmanCode
 {
 private:
-    HuffmanTree *tree;
+    HuffmanTree *tree; //consider removig this field
     unsigned *getFrequencies(const char *src);
 
 public:
     HuffmanCode(const char *src);
     HuffmanCode(std::istream &input = std::cin);
-    
+
     ~HuffmanCode();
 };
 
