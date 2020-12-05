@@ -14,9 +14,11 @@ private:
     Node *fromSchemeRec(std::istream &is);
 
 public:
+    HuffmanTree();
     HuffmanTree(PriorityQueue &queue);
     std::string getEncoded(char s) const;
-    char getDecoded(const char *s) const;
+    char getDecoded(const char *&s) const;
+    char getDecoded(std::string &s) const;
     void toScheme(std::ostream &os) const;
     void fromScheme(std::istream &is);
     ~HuffmanTree();

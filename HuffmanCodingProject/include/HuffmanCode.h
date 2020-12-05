@@ -13,17 +13,18 @@ private:
     HuffmanTree *tree;
     std::istream &input;
     std::ostream &output;
+    std::fstream *treeStream; // optional
 
     std::string extractSrc();
     unsigned *getFrequencies(const char *src) const;
     std::vector<Node *> createLeaves(unsigned *table) const;
     HuffmanTable getEncodedTable(std::vector<Node *> &leaves) const;
+    HuffmanTable getdecodedTable(std::vector<std::string> &leaves) const;
 
 public:
-    HuffmanCode(std::istream &in = std::cin, std::ostream &out = std::cout);
+    HuffmanCode(std::istream &in = std::cin, std::ostream &out = std::cout, std::fstream *treeS = nullptr);
     void encode();
-    void decode(); // TO DO
-
+    void decode();
     ~HuffmanCode();
 };
 

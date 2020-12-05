@@ -3,6 +3,8 @@
 #include <fstream>
 #include <cassert>
 
+HuffmanTree::HuffmanTree() : root(nullptr) {}
+
 HuffmanTree::HuffmanTree(PriorityQueue &queue) : root(nullptr)
 {
     Node *child1;
@@ -70,16 +72,49 @@ std::string HuffmanTree::getEncoded(char s) const
     return encoded;
 }
 
-char HuffmanTree::getDecoded(const char *s) const
+char HuffmanTree::getDecoded(const char *&s) const
 {
+
+    if (root->left == nullptr && root->right == nullptr && *s == '0')
+    {
+        s++;
+        return root->asciiSymbol;
+    }
+
     Node *crr = root;
+
     while (crr != nullptr && *s)
     {
+        if (crr->left == nullptr && crr->right == nullptr)
+            return crr->asciiSymbol;
+
         if (*s == '0')
             crr = crr->left;
         else
             crr = crr->right;
         s++;
+    }
+    if (crr == nullptr)
+        throw std::logic_error("Node not found! The program assumes valid \'s\' path!\n");
+
+    return crr->asciiSymbol;
+}
+
+// for testing only
+char HuffmanTree::getDecoded(std::string &s) const
+{
+    Node *crr = root;
+    unsigned i = 0;
+    while (crr != nullptr && s[i])
+    {
+        if (crr->left == nullptr && crr->right == nullptr)
+            return crr->asciiSymbol;
+
+        if (s[i] == '0')
+            crr = crr->left;
+        else
+            crr = crr->right;
+        i++;
     }
     if (crr == nullptr)
         throw std::logic_error("Node not found! The program assumes valid \'s\' path!\n");

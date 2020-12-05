@@ -1,7 +1,7 @@
 #include "../include/HuffmanCode.h"
 #include <cassert>
 
-HuffmanCode::HuffmanCode(std::istream &in, std::ostream &out) : tree(nullptr), input(in), output(out) {}
+HuffmanCode::HuffmanCode(std::istream &in, std::ostream &out, std::fstream *treeS) : tree(nullptr), input(in), output(out), treeStream(treeS) {}
 
 unsigned *HuffmanCode::getFrequencies(const char *src) const
 {
@@ -33,7 +33,7 @@ std::string HuffmanCode::extractSrc()
 {
     std::string src;
     std::string crr;
-    while (std::getline(input, crr) && crr != "")
+    while (std::getline(input, crr) /*&& crr != ""*/) // DO I NEED crr != "" ?
         src += crr;
     return src;
 }
@@ -67,13 +67,34 @@ void HuffmanCode::encode()
 
     HuffmanTable encodedTable = getEncodedTable(leafs);
 
+    if (treeStream != nullptr)
+        tree->toScheme(*treeStream);
+    else
+    {
+        tree->toScheme(output);
+        output << '\n';
+    }
+
     //encoding happens here:
     while (*src)
     {
-        if (*(src + 1))
-            output << encodedTable[*src++] << ' ';
-        else
-            output << encodedTable[*src++];
+        output << encodedTable[*src++];
+    }
+}
+
+void HuffmanCode::decode()
+{
+    tree = new HuffmanTree;
+    if (treeStream != nullptr)
+        tree->fromScheme(*treeStream);
+    else
+        tree->fromScheme(input);
+
+    std::string src = extractSrc();
+    const char *cSrc = src.c_str();
+    while (*cSrc)
+    {
+        output << tree->getDecoded(cSrc);
     }
 }
 

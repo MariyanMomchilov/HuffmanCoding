@@ -30,15 +30,15 @@ TEST_CASE("Huffman tree")
     PriorityQueue pq(buff);
     HuffmanTree tree(pq);
     std::string encodedA = tree.getEncoded('A');
-    char decodedA = tree.getDecoded(encodedA.c_str());
+    char decodedA = tree.getDecoded(encodedA);
     std::string encodedB = tree.getEncoded('B');
-    char decodedB = tree.getDecoded(encodedB.c_str());
+    char decodedB = tree.getDecoded(encodedB);
     std::string encodedC = tree.getEncoded('C');
-    char decodedC = tree.getDecoded(encodedC.c_str());
+    char decodedC = tree.getDecoded(encodedC);
     std::string encodedR = tree.getEncoded('R');
-    char decodedR = tree.getDecoded(encodedR.c_str());
+    char decodedR = tree.getDecoded(encodedR);
     std::string encodedD = tree.getEncoded('D');
-    char decodedD = tree.getDecoded(encodedD.c_str());
+    char decodedD = tree.getDecoded(encodedD);
     CHECK(encodedA == "0");
     CHECK(encodedB == "110");
     CHECK(encodedC == "1110");
@@ -50,55 +50,102 @@ TEST_CASE("Huffman tree")
     CHECK(decodedD == 'D');
     CHECK(decodedR == 'R');
 
-    std::ofstream out("scheme.txt");
+    std::ofstream out("../tests/scheme.txt");
     tree.toScheme(out);
     out.close();
-    std::ifstream in("scheme.txt");
+    std::ifstream in("../tests/scheme.txt");
     tree.fromScheme(in);
     in.close();
 }
 
-//TEST_CASE("Huffman code")
-//{
-//    HuffmanCode hc("ABRACADABRA");
-//}
-
 TEST_CASE("Huffman code")
 {
-    std::ifstream in("test.txt");
-    std::ofstream out("testOut.txt");
+    std::ifstream in("../tests/test1.txt");
+    std::ofstream out("../tests/testOut1.txt");
     HuffmanCode hc(in, out);
     hc.encode();
+    in.close();
+    out.close();
+
+    in.open("../tests/testOut1.txt");
+    out.open("../tests/testIn1.txt");
+    HuffmanCode hcD(in, out);
+    hcD.decode();
+
     in.close();
     out.close();
 }
 
 TEST_CASE("Huffman code2")
 {
-    std::ifstream in("test2.txt");
-    std::ofstream out("testOut2.txt");
+    std::ifstream in("../tests/test2.txt");
+    std::ofstream out("../tests/testOut2.txt");
     HuffmanCode hc(in, out);
     hc.encode();
+    in.close();
+    out.close();
+
+    in.open("../tests/testOut2.txt");
+    out.open("../tests/testIn2.txt");
+    HuffmanCode hc2(in, out);
+    hc2.decode();
     in.close();
     out.close();
 }
 
 TEST_CASE("Huffman code3")
 {
-    std::ifstream in("test3.txt");
-    std::ofstream out("testOut3.txt");
+    std::ifstream in("../tests/test3.txt");
+    std::ofstream out("../tests/testOut3.txt");
     HuffmanCode hc(in, out);
     hc.encode();
+    in.close();
+    out.close();
+
+    in.open("../tests/testOut3.txt");
+    out.open("../tests/testIn3.txt");
+    HuffmanCode hc2(in, out);
+    hc2.decode();
     in.close();
     out.close();
 }
 
 TEST_CASE("Huffman code4")
 {
-    std::ifstream in("test4.txt");
-    std::ofstream out("testOut4.txt");
+    std::ifstream in("../tests/test4.txt");
+    std::ofstream out("../tests/testOut4.txt");
     HuffmanCode hc(in, out);
     hc.encode();
     in.close();
     out.close();
+
+    in.open("../tests/testOut4.txt");
+    out.open("../tests/testIn4.txt");
+    HuffmanCode hc2(in, out);
+    hc2.decode();
+    in.close();
+    out.close();
+}
+
+TEST_CASE("Huffman code with separated tree file")
+{
+    std::ifstream in("../tests/test2.txt");
+    std::ofstream out("../tests/treeTestOut.txt");
+    std::fstream treeStream("../tests/tree.txt");
+
+    HuffmanCode hc(in, out, &treeStream);
+    hc.encode();
+    in.close();
+    out.close();
+    treeStream.close();
+
+    in.open("../tests/treeTestOut.txt");
+    out.open("../tests/treeTestIn.txt");
+    treeStream.open("../tests/tree.txt");
+
+    HuffmanCode hc2(in, out, &treeStream);
+    hc.decode();
+    in.close();
+    out.close();
+    treeStream.close();
 }
