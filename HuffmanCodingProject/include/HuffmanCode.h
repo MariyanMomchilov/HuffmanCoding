@@ -25,6 +25,7 @@ public:
     HuffmanCode(std::istream &in = std::cin, std::ostream &out = std::cout, std::fstream *treeS = nullptr);
     void encode();
     void decode();
+    void visualizeTree();
     ~HuffmanCode();
 };
 

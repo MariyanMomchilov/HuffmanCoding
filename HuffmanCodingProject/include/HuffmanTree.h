@@ -22,6 +22,8 @@ public:
     char getDecoded(std::string &s) const;
     void toScheme(std::ostream &os) const;
     void fromScheme(std::istream &is);
+    void toGraphViz(std::ostream &os) const;
+    void toGraphViz(std::ostream &os, Node *node) const;
     ~HuffmanTree();
 
     class Iterator

@@ -140,7 +140,7 @@ void HuffmanTree::toScheme(std::ostream &os) const
     toScheme(os, root);
 }
 
-Node *HuffmanTree::fromSchemeRec(std::istream &is)
+Node *HuffmanTree::fromSchemeRec(std::istream &is) // TO DO REFACTOR ERROR HANDLING
 {
     assert(is.get() == '(');
     char peeked = is.get();
@@ -148,9 +148,8 @@ Node *HuffmanTree::fromSchemeRec(std::istream &is)
         return nullptr;
 
     assert(peeked == '{');
-    char ascii;
+    char ascii = is.get();
     unsigned key;
-    is >> ascii;
     is.get();
     is >> key;
     assert(is.get() == '}');
@@ -164,6 +163,36 @@ void HuffmanTree::fromScheme(std::istream &is)
 {
     clear(root);
     root = fromSchemeRec(is);
+}
+
+void HuffmanTree::toGraphViz(std::ostream &os, Node *node) const
+{
+    if (node == nullptr)
+        return;
+
+    if (node->left == nullptr && node->right == nullptr)
+        os << (std::intptr_t)node << "[label = \"key: " << node->key << "\\n ascii: " << node->asciiSymbol << "\"];\n";
+    else
+    {
+        os << (std::intptr_t)node << " [label = \"key: " << node->key << "\"];\n";
+        if (node->left != nullptr)
+        {
+            os << (std::intptr_t)node << "-> " << (std::intptr_t)node->left << "[label = 0, color = red];\n";
+            toGraphViz(os, node->left);
+        }
+        if (node->right != nullptr)
+        {
+            os << (std::intptr_t)node << "-> " << (std::intptr_t)node->right << "[label = 1];\n";
+            toGraphViz(os, node->right);
+        }
+    }
+}
+
+void HuffmanTree::toGraphViz(std::ostream &os) const
+{
+    os << "digraph {\n";
+    toGraphViz(os, root);
+    os << "}";
 }
 
 HuffmanTree::~HuffmanTree()

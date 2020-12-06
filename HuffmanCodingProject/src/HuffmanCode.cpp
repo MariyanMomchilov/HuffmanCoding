@@ -98,6 +98,13 @@ void HuffmanCode::decode()
     }
 }
 
+void HuffmanCode::visualizeTree()
+{
+    std::ofstream dot("tree.dot");
+    tree->toGraphViz(dot);
+    dot.close();
+}
+
 HuffmanCode::~HuffmanCode()
 {
     if (tree != nullptr)

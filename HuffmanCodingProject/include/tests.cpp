@@ -77,6 +77,7 @@ TEST_CASE("Huffman code")
     std::ofstream out("../tests/testOut1.txt");
     HuffmanCode hc(in, out);
     hc.encode();
+    hc.visualizeTree();
     in.close();
     out.close();
 
@@ -95,6 +96,7 @@ TEST_CASE("Huffman code2")
     std::ofstream out("../tests/testOut2.txt");
     HuffmanCode hc(in, out);
     hc.encode();
+    hc.visualizeTree();
     in.close();
     out.close();
 
@@ -161,4 +163,22 @@ TEST_CASE("Huffman code with separated tree file")
     in.close();
     out.close();
     treeStream.close();
+}
+
+TEST_CASE("Huffman code2")
+{
+    std::ifstream in("../tests/test5.txt");
+    std::ofstream out("../tests/testOut5.txt");
+    HuffmanCode hc(in, out);
+    hc.encode();
+    hc.visualizeTree();
+    in.close();
+    out.close();
+
+    in.open("../tests/testOut5.txt");
+    out.open("../tests/testIn5.txt");
+    HuffmanCode hc2(in, out);
+    hc2.decode();
+    in.close();
+    out.close();
 }
