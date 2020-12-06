@@ -101,7 +101,8 @@ void HuffmanCode::decode()
 void HuffmanCode::visualizeTree()
 {
     std::ofstream dot("tree.dot");
-    tree->toGraphViz(dot);
+    if (tree != nullptr)
+        tree->toGraphViz(dot);
     dot.close();
 }
 
