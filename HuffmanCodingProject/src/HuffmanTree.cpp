@@ -201,18 +201,14 @@ typename HuffmanTree::Iterator &HuffmanTree::Iterator::operator++()
     {
         prev = s.top();
         s.pop();
-        if (!s.empty())
+        if (!s.empty() && s.top()->right == prev)
         {
-            if (s.top()->right == prev)
-            {
-                prev = s.top();
-                s.pop();
-                if (prev->left != nullptr)
-                    s.push(prev->left);
-            }
+            prev = s.top();
+            s.pop();
+            if (prev->left != nullptr)
+                s.push(prev->left);
         }
     }
-
     return *this;
 }
 

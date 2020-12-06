@@ -13,7 +13,7 @@
 #endif
 
 #if TEST_MODE
-#include "tests.cpp"
+#include "../include/tests.cpp"
 #endif
 
 int main()
