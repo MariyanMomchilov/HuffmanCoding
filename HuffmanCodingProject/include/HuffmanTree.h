@@ -2,6 +2,7 @@
 #define __HUFFMAN
 #include "PriorityQueue.h"
 #include <string>
+#include <stack>
 
 class HuffmanTree
 {
@@ -22,6 +23,23 @@ public:
     void toScheme(std::ostream &os) const;
     void fromScheme(std::istream &is);
     ~HuffmanTree();
+
+    class Iterator
+    {
+    private:
+        std::stack<Node *> s;
+        Node *prev;
+
+    public:
+        Iterator(Node *start = nullptr);
+        Iterator &operator++();
+        bool operator!=(const Iterator &rh) const;
+        Node *operator*();
+        ~Iterator() = default;
+    };
+
+    Iterator begin();
+    Iterator end();
 };
 
 #endif

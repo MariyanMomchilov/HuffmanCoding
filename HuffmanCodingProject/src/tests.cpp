@@ -58,6 +58,19 @@ TEST_CASE("Huffman tree")
     in.close();
 }
 
+TEST_CASE("Tree Iterator")
+{
+    std::vector<Node *> leafs = {new Node{'?', 6, nullptr, nullptr}, new Node{'?', 2, nullptr, nullptr}, new Node{'?', 3, nullptr, nullptr}};
+    PriorityQueue pq(leafs);
+    HuffmanTree tree(pq);
+    std::cout << "ITERATOR: \n";
+    for (Node *el : tree)
+    {
+        std::cout << el->key << ' ';
+    }
+    std::cout << '\n';
+}
+
 TEST_CASE("Huffman code")
 {
     std::ifstream in("../tests/test1.txt");

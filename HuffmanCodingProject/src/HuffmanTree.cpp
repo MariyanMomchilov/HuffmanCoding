@@ -170,3 +170,64 @@ HuffmanTree::~HuffmanTree()
 {
     clear(root);
 }
+
+HuffmanTree::Iterator::Iterator(Node *start) : prev(nullptr)
+{
+    if (start != nullptr)
+        s.push(start);
+}
+
+typename HuffmanTree::Iterator &HuffmanTree::Iterator::operator++()
+{
+    if (s.empty())
+        return *this;
+
+    Node *crr = s.top();
+    if (crr->right != nullptr)
+    {
+        if (prev != crr->right && prev != crr->left)
+            s.push(crr->right);
+        else if (prev == crr->right)
+        {
+            prev = s.top();
+            s.pop();
+            if (crr->left != nullptr)
+                s.push(crr->left);
+        }
+    }
+    else if (crr->left != nullptr && prev != crr->left)
+        s.push(crr->left);
+    else
+    {
+        prev = s.top();
+        s.pop();
+        if (!s.empty())
+        {
+            if (s.top()->right == prev)
+            {
+                prev = s.top();
+                s.pop();
+                if (prev->left != nullptr)
+                    s.push(prev->left);
+            }
+        }
+    }
+
+    return *this;
+}
+
+bool HuffmanTree::Iterator::operator!=(const Iterator &rh) const
+{
+    return ((s.empty() && !rh.s.empty()) || (!s.empty() && rh.s.empty())) || (!s.empty() && !rh.s.empty() && s.top() != rh.s.top());
+}
+
+Node *HuffmanTree::Iterator::operator*()
+{
+    if (s.empty())
+        throw std::logic_error("Read/Write to an end iterator\n");
+
+    return s.top();
+}
+
+typename HuffmanTree::Iterator HuffmanTree::begin() { return Iterator(root); }
+typename HuffmanTree::Iterator HuffmanTree::end() { return Iterator(); }
