@@ -10,7 +10,7 @@ using HuffmanTable = std::unordered_map<char, std::string>;
 class HuffmanCode
 {
 private:
-    HuffmanTree *tree;
+    HuffmanTree tree;
     std::istream &input;
     std::ostream &output;
     std::fstream *treeStream; // optional
@@ -26,7 +26,7 @@ public:
     void encode();
     void decode();
     void visualizeTree();
-    ~HuffmanCode();
+    ~HuffmanCode() = default;
 };
 
 #endif

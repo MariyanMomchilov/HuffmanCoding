@@ -5,6 +5,42 @@
 
 HuffmanTree::HuffmanTree() : root(nullptr) {}
 
+Node *HuffmanTree::clone(Node *from) const
+{
+    if (from == nullptr)
+        return nullptr;
+    return new Node{from->asciiSymbol, from->key, clone(from->left), clone(from->right)};
+}
+
+HuffmanTree::HuffmanTree(const HuffmanTree &other) : root(nullptr)
+{
+    root = clone(other.root);
+}
+
+HuffmanTree::HuffmanTree(HuffmanTree &&rval) noexcept : root(rval.root)
+{
+    rval.root = nullptr;
+}
+
+HuffmanTree &HuffmanTree::operator=(const HuffmanTree &other)
+{
+    if (this != &other)
+    {
+        clear(root);
+        root = clone(other.root);
+    }
+    return *this;
+}
+
+HuffmanTree &HuffmanTree::operator=(HuffmanTree &&rval) noexcept
+{
+    clear(root);
+    root = rval.root;
+    rval.root = nullptr;
+
+    return *this;
+}
+
 HuffmanTree::HuffmanTree(PriorityQueue &queue) : root(nullptr)
 {
     Node *child1;
@@ -142,20 +178,25 @@ void HuffmanTree::toScheme(std::ostream &os) const
 
 Node *HuffmanTree::fromSchemeRec(std::istream &is) // TO DO REFACTOR ERROR HANDLING
 {
-    assert(is.get() == '(');
+    if (is.get() != '(')
+        throw std::domain_error("Invalid tree file. Expected \'(\'\n");
+
     char peeked = is.get();
     if (peeked == ')')
         return nullptr;
 
-    assert(peeked == '{');
+    if (peeked != '{')
+        throw std::domain_error("Invalid tree file. Expected \'{\'\n");
     char ascii = is.get();
     unsigned key;
     is.get();
     is >> key;
-    assert(is.get() == '}');
+    if (is.get() != '}')
+        throw std::domain_error("Invalid tree file. Expected \'}\'\n");
     is.get();
     Node *node = new Node{ascii, key, fromSchemeRec(is), fromSchemeRec(is)};
-    assert(is.get() == ')');
+    if (is.get() != ')')
+        throw std::domain_error("Invalid tree file. Expected \')\'\n");
     return node;
 }
 
@@ -256,3 +297,15 @@ Node *HuffmanTree::Iterator::operator*()
 
 typename HuffmanTree::Iterator HuffmanTree::begin() { return Iterator(root); }
 typename HuffmanTree::Iterator HuffmanTree::end() { return Iterator(); }
+
+std::ostream &operator<<(std::ostream &os, HuffmanTree &tree)
+{
+    tree.toScheme(os);
+    return os;
+}
+
+std::istream &operator>>(std::istream &is, HuffmanTree &tree)
+{
+    tree.fromScheme(is);
+    return is;
+}

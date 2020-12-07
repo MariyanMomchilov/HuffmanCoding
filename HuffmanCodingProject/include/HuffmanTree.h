@@ -9,13 +9,21 @@ class HuffmanTree
 private:
     Node *root;
 
+    friend std::ostream &operator<<(std::ostream &os, HuffmanTree &tree);
+    friend std::istream &operator>>(std::istream &is, HuffmanTree &tree);
+
     void clear(Node *node);
     std::string search(Node *node, char s, bool &valid) const;
     void toScheme(std::ostream &os, Node *node) const;
     Node *fromSchemeRec(std::istream &is);
+    Node *clone(Node *from) const;
 
 public:
     HuffmanTree();
+    HuffmanTree(const HuffmanTree &other);
+    HuffmanTree(HuffmanTree &&rval) noexcept;
+    HuffmanTree &operator=(const HuffmanTree &other);
+    HuffmanTree &operator=(HuffmanTree &&rval) noexcept;
     HuffmanTree(PriorityQueue &queue);
     std::string getEncoded(char s) const;
     char getDecoded(const char *&s) const;

@@ -1,7 +1,7 @@
 #include "../include/HuffmanCode.h"
 #include <cassert>
 
-HuffmanCode::HuffmanCode(std::istream &in, std::ostream &out, std::fstream *treeS) : tree(nullptr), input(in), output(out), treeStream(treeS) {}
+HuffmanCode::HuffmanCode(std::istream &in, std::ostream &out, std::fstream *treeS) : input(in), output(out), treeStream(treeS) {}
 
 unsigned *HuffmanCode::getFrequencies(const char *src) const
 {
@@ -44,7 +44,7 @@ HuffmanTable HuffmanCode::getEncodedTable(std::vector<Node *> &leaves) const
 
     for (int i = 0; i < leaves.size(); i++)
     {
-        table[leaves[i]->asciiSymbol] = tree->getEncoded(leaves[i]->asciiSymbol);
+        table[leaves[i]->asciiSymbol] = tree.getEncoded(leaves[i]->asciiSymbol);
     }
     return table;
 }
@@ -63,15 +63,15 @@ void HuffmanCode::encode()
     delete table;
 
     PriorityQueue pq(leafs);
-    tree = new HuffmanTree(pq);
+    tree = HuffmanTree(pq);
 
     HuffmanTable encodedTable = getEncodedTable(leafs);
 
     if (treeStream != nullptr)
-        tree->toScheme(*treeStream);
+        *treeStream << tree;
     else
     {
-        tree->toScheme(output);
+        output << tree;
         output << '\n';
     }
 
@@ -84,30 +84,22 @@ void HuffmanCode::encode()
 
 void HuffmanCode::decode()
 {
-    tree = new HuffmanTree;
     if (treeStream != nullptr)
-        tree->fromScheme(*treeStream);
+        *treeStream >> tree;
     else
-        tree->fromScheme(input);
+        input >> tree;
 
     std::string src = extractSrc();
     const char *cSrc = src.c_str();
     while (*cSrc)
     {
-        output << tree->getDecoded(cSrc);
+        output << tree.getDecoded(cSrc);
     }
 }
 
 void HuffmanCode::visualizeTree()
 {
     std::ofstream dot("tree.dot");
-    if (tree != nullptr)
-        tree->toGraphViz(dot);
+    tree.toGraphViz(dot);
     dot.close();
-}
-
-HuffmanCode::~HuffmanCode()
-{
-    if (tree != nullptr)
-        delete tree;
 }
