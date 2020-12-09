@@ -33,8 +33,12 @@ std::string HuffmanCode::extractSrc()
 {
     std::string src;
     std::string crr;
-    while (std::getline(input, crr) /*&& crr != ""*/) // DO I NEED crr != "" ?
+    while (std::getline(input, crr))
+    {
+        if (&input == &std::cin && crr == "")
+            break;
         src += crr;
+    }
     return src;
 }
 
@@ -77,9 +81,8 @@ void HuffmanCode::encode()
 
     //encoding happens here:
     while (*src)
-    {
         output << encodedTable[*src++];
-    }
+    output << '\n';
 }
 
 void HuffmanCode::decode()

@@ -182,3 +182,9 @@ TEST_CASE("Huffman code2")
     in.close();
     out.close();
 }
+
+TEST_CASE("Huffman code using std streams")
+{
+    HuffmanCode hc;
+    hc.encode();
+}
