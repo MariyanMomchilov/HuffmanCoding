@@ -5,6 +5,8 @@
 #include "PriorityQueue.cpp"
 #include "HuffmanTree.cpp"
 #include "HuffmanCode.cpp"
+#include "HuffmanCallable.cpp"
+#include "Builder.cpp"
 #include "CLI.cpp"
 #else
 #include "../include/Node.h"

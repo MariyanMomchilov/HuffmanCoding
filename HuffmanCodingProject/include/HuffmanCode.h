@@ -7,6 +7,13 @@
 
 using HuffmanTable = std::unordered_map<char, std::string>;
 
+enum class Mode
+{
+    Compression,
+    Decompression,
+    Empty
+};
+
 class HuffmanCode
 {
 private:
@@ -23,9 +30,11 @@ private:
 
 public:
     HuffmanCode(std::istream &in = std::cin, std::ostream &out = std::cout, std::fstream *treeS = nullptr);
+    void operator()(Mode m);
     void encode();
     void decode();
     void visualizeTree();
+    void visualizeTree(std::ofstream &v);
     ~HuffmanCode() = default;
 };
 

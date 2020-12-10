@@ -5,6 +5,7 @@
 #include "../include/HuffmanTree.h"
 #include "../include/HuffmanCode.h"
 
+/*
 TEST_CASE("Priority Q")
 {
     std::vector<Node *> buff{new Node{'a', 7, nullptr, nullptr}, new Node{'a', 8, nullptr, nullptr}, new Node{'a', 5, nullptr, nullptr}, new Node{'a', 9, nullptr, nullptr}, new Node{'a', 4, nullptr, nullptr}, new Node{'a', 2, nullptr, nullptr}};
@@ -187,4 +188,29 @@ TEST_CASE("Huffman code using std streams")
 {
     HuffmanCode hc;
     hc.encode();
+}
+*/
+TEST_CASE("Huffman code using std streams")
+{
+
+    std::ifstream in("../tests/Stoyan");
+    std::ofstream out("../tests/StoyanOut.txt");
+    std::fstream treeStream("../tests/treeStoyan.txt", std::ios::out);
+
+    HuffmanCode hc(in, out, &treeStream);
+    hc.encode();
+    hc.visualizeTree();
+    in.close();
+    out.close();
+    treeStream.close();
+
+    in.open("../tests/StoyanOut.txt");
+    out.open("../tests/StoyanDecompression.txt");
+    treeStream.open("../tests/treeStoyan.txt", std::ios::in);
+    HuffmanCode hc2(in, out, &treeStream);
+    hc.decode();
+
+    in.close();
+    out.close();
+    treeStream.close();
 }

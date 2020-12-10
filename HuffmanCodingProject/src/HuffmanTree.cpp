@@ -206,7 +206,7 @@ void HuffmanTree::fromScheme(std::istream &is)
     root = fromSchemeRec(is);
 }
 
-void HuffmanTree::toGraphViz(std::ostream &os, Node *node) const
+void HuffmanTree::toGraphViz(std::ofstream &os, Node *node) const
 {
     if (node == nullptr)
         return;
@@ -229,11 +229,12 @@ void HuffmanTree::toGraphViz(std::ostream &os, Node *node) const
     }
 }
 
-void HuffmanTree::toGraphViz(std::ostream &os) const
+void HuffmanTree::toGraphViz(std::ofstream &os) const
 {
     os << "digraph {\n";
     toGraphViz(os, root);
     os << "}";
+    os.close();
 }
 
 HuffmanTree::~HuffmanTree()

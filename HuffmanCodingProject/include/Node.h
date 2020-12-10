@@ -1,9 +1,6 @@
 #ifndef _NODE
 #define _NODE
 
-//class PriorityQueue;
-//class HuffmanTree;
-
 struct Node
 {
     char asciiSymbol;

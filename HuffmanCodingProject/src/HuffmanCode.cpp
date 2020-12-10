@@ -100,9 +100,25 @@ void HuffmanCode::decode()
     }
 }
 
+void HuffmanCode::operator()(Mode m)
+{
+
+    if (m == Mode::Compression)
+        encode();
+    else if (m == Mode::Decompression)
+        decode();
+    else
+        throw std::logic_error("Invalid mode\n");
+}
+
 void HuffmanCode::visualizeTree()
 {
     std::ofstream dot("tree.dot");
     tree.toGraphViz(dot);
     dot.close();
+}
+
+void HuffmanCode::visualizeTree(std::ofstream &v)
+{
+    tree.toGraphViz(v);
 }
