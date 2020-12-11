@@ -164,9 +164,3 @@ TEST_CASE("Huffman code with separated tree file")
     out.close();
     treeStream.close();
 }
-
-TEST_CASE("Huffman code using std streams")
-{
-    HuffmanCode hc2;
-    hc2.decode();
-}

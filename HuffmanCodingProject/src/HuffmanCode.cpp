@@ -30,15 +30,26 @@ std::vector<Node *> HuffmanCode::createLeaves(unsigned *table) const
     return leafs;
 }
 
-std::string HuffmanCode::extractSrc()
+std::string HuffmanCode::extractSrcDecode()
 {
     std::string src;
     std::string crr;
     while (std::getline(input, crr))
     {
-        if (&input == &std::cin && crr == "")
-            break;
         src += crr;
+    }
+    return src;
+}
+
+std::string HuffmanCode::extractSrcEncode()
+{
+    std::string src;
+    char c;
+    while (input.get(c))
+    {
+        if (input.eof())
+            break;
+        src += c;
     }
     return src;
 }
@@ -56,7 +67,7 @@ HuffmanTable HuffmanCode::getEncodedTable(std::vector<Node *> &leaves) const
 
 void HuffmanCode::encode()
 {
-    std::string strSource = extractSrc();
+    std::string strSource = extractSrcEncode();
     const char *src = strSource.c_str();
 
     // index - corresponds to char
@@ -75,10 +86,7 @@ void HuffmanCode::encode()
     if (treeStream != nullptr)
         *treeStream << tree;
     else
-    {
-        output << tree;
-        output << '\n';
-    }
+        output << tree << '\n';
 
     toOutputEncoded(src, encodedTable);
     calculateCompression(src, encodedTable);
@@ -91,7 +99,7 @@ void HuffmanCode::decode()
     else
         input >> tree;
 
-    std::string src = extractSrc();
+    std::string src = extractSrcDecode();
     const char *cSrc = src.c_str();
     toOutputDecoded(cSrc);
 }
@@ -123,7 +131,6 @@ void HuffmanCode::toOutputEncoded(const char *str, HuffmanTable &t)
 {
     while (*str)
         output << t[*str++];
-    output << '\n';
 }
 
 void HuffmanCode::calculateCompression(const char *str, HuffmanTable &t) const

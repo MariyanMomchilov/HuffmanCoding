@@ -22,7 +22,8 @@ private:
     std::ostream &output;
     std::fstream *treeStream; // optional
 
-    std::string extractSrc();
+    std::string extractSrcDecode();
+    std::string extractSrcEncode();
     unsigned *getFrequencies(const char *src) const;
     std::vector<Node *> createLeaves(unsigned *table) const;
     HuffmanTable getEncodedTable(std::vector<Node *> &leaves) const;
