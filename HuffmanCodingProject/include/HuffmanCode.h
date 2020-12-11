@@ -27,6 +27,9 @@ private:
     std::vector<Node *> createLeaves(unsigned *table) const;
     HuffmanTable getEncodedTable(std::vector<Node *> &leaves) const;
     HuffmanTable getdecodedTable(std::vector<std::string> &leaves) const;
+    void toOutputEncoded(const char *str, HuffmanTable &t);
+    void toOutputDecoded(const char *str);
+    void calculateCompression(const char *str, HuffmanTable &t) const;
 
 public:
     HuffmanCode(std::istream &in = std::cin, std::ostream &out = std::cout, std::fstream *treeS = nullptr);

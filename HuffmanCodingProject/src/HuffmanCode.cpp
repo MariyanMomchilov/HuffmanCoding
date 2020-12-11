@@ -1,5 +1,6 @@
 #include "../include/HuffmanCode.h"
 #include <cassert>
+#include <cstring>
 
 HuffmanCode::HuffmanCode(std::istream &in, std::ostream &out, std::fstream *treeS) : input(in), output(out), treeStream(treeS) {}
 
@@ -79,10 +80,8 @@ void HuffmanCode::encode()
         output << '\n';
     }
 
-    //encoding happens here:
-    while (*src)
-        output << encodedTable[*src++];
-    output << '\n';
+    toOutputEncoded(src, encodedTable);
+    calculateCompression(src, encodedTable);
 }
 
 void HuffmanCode::decode()
@@ -94,10 +93,7 @@ void HuffmanCode::decode()
 
     std::string src = extractSrc();
     const char *cSrc = src.c_str();
-    while (*cSrc)
-    {
-        output << tree.getDecoded(cSrc);
-    }
+    toOutputDecoded(cSrc);
 }
 
 void HuffmanCode::operator()(Mode m)
@@ -121,4 +117,37 @@ void HuffmanCode::visualizeTree()
 void HuffmanCode::visualizeTree(std::ofstream &v)
 {
     tree.toGraphViz(v);
+}
+
+void HuffmanCode::toOutputEncoded(const char *str, HuffmanTable &t)
+{
+    while (*str)
+        output << t[*str++];
+    output << '\n';
+}
+
+void HuffmanCode::calculateCompression(const char *str, HuffmanTable &t) const
+{
+    if (!*str)
+        return;
+
+    size_t originalSize = strlen(str);
+    std::string res;
+    while (*str)
+        res += t[*str++];
+
+    size_t compressedSize = res.size();
+    std::cout << "\n------------- Reduced file size by "
+              << (100 * ((8 * originalSize) - compressedSize)) / (8 * originalSize) << "%. \n";
+    std::cout << "------------- Compressed " << originalSize << " bytes(" << 8 * originalSize << " bits) to ";
+    if (compressedSize % 8 == 0)
+        std::cout << compressedSize / 8 << " bytes(" << compressedSize << " bits). \n\n";
+    else
+        std::cout << (compressedSize / 8) + 1 << " bytes(" << compressedSize << " bits). \n\n";
+}
+
+void HuffmanCode::toOutputDecoded(const char *str)
+{
+    while (*str)
+        output << tree.getDecoded(str);
 }
