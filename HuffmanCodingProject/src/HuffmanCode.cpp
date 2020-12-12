@@ -2,7 +2,7 @@
 #include <cassert>
 #include <cstring>
 
-HuffmanCode::HuffmanCode(std::istream &in, std::ostream &out, std::fstream *treeS) : input(in), output(out), treeStream(treeS) {}
+HuffmanCode::HuffmanCode(std::ifstream &in, std::ofstream &out, std::fstream *treeS) : input(in), output(out), treeStream(treeS) {}
 
 unsigned *HuffmanCode::getFrequencies(const char *src) const
 {

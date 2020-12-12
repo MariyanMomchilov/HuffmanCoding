@@ -1,20 +1,20 @@
 #include "../include/HuffmanCallable.h"
 
-HuffmanCallable::HuffmanCallable(std::istream *i, std::ostream *o, std::fstream *t, std::ofstream *v) : mode(Mode::Empty), is(i), os(o), treeS(t), treeViz(v) {}
+HuffmanCallable::HuffmanCallable(std::ifstream *i, std::ofstream *o, std::fstream *t, std::ofstream *v) : mode(Mode::Empty), is(i), os(o), treeS(t), treeViz(v) {}
 
 void HuffmanCallable::setMode(Mode m)
 {
     mode = m;
 }
 
-void HuffmanCallable::setInputStream(std::istream *i)
+void HuffmanCallable::setInputStream(std::ifstream *i)
 {
     if (i != nullptr)
         is = i;
 }
-void HuffmanCallable::setOutputStream(std::ostream *o)
+void HuffmanCallable::setOutputStream(std::ofstream *o)
 {
-    if (os != nullptr)
+    if (o != nullptr)
         os = o;
 }
 void HuffmanCallable::setTreeStream(std::fstream *t)
@@ -31,12 +31,12 @@ Mode HuffmanCallable::getMode() const
     return mode;
 }
 
-std::istream *HuffmanCallable::getInputStream()
+std::ifstream *HuffmanCallable::getInputStream()
 {
     return is;
 }
 
-std::ostream *HuffmanCallable::getOutputStream()
+std::ofstream *HuffmanCallable::getOutputStream()
 {
     return os;
 }
@@ -53,20 +53,39 @@ std::ofstream *HuffmanCallable::getTreeVizStream()
 
 void HuffmanCallable::operator()()
 {
-    HuffmanCode code(*is, *os, treeS);
-    code(mode);
-    if (treeViz != nullptr)
-        code.visualizeTree(*treeViz);
+    if (is != nullptr && os != nullptr)
+    {
+        HuffmanCode code(*is, *os, treeS);
+        code(mode);
+        if (treeViz != nullptr)
+            code.visualizeTree(*treeViz);
+    }
+    else if (is == nullptr)
+        throw std::logic_error("Input not provided!\n");
+    else
+        throw std::logic_error("Output not provided!\n");
 }
 
 HuffmanCallable::~HuffmanCallable()
 {
-    if (is != &std::cin)
+    if (is != nullptr)
+    {
+        is->close();
         delete is;
+    }
     if (os != &std::cout)
+    {
+        os->close();
         delete os;
+    }
     if (treeS != nullptr)
+    {
+        treeS->close();
         delete treeS;
+    }
     if (treeViz != nullptr)
+    {
+        treeViz->close();
         delete treeViz;
+    }
 }

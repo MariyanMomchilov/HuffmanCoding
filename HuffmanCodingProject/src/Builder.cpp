@@ -9,14 +9,14 @@ void HuffmanCodeBuilder::buildMode(Mode m)
 
 void HuffmanCodeBuilder::buildInput(const std::string &f)
 {
-    if (hcallable.getInputStream() != &std::cin)
+    if (hcallable.getInputStream() != nullptr)
         throw std::logic_error("Multiple input files provided. Rerun the program with only one -i or none \n");
     hcallable.setInputStream(new std::ifstream(f));
 }
 
 void HuffmanCodeBuilder::buildOutput(const std::string &f)
 {
-    if (hcallable.getOutputStream() != &std::cout)
+    if (hcallable.getOutputStream() != nullptr)
         throw std::logic_error("Multiple output files provided. Rerun the program with only one-o or none \n");
     hcallable.setOutputStream(new std::ofstream(f));
 }

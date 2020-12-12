@@ -18,22 +18,22 @@ class HuffmanCode
 {
 private:
     HuffmanTree tree;
-    std::istream &input;
-    std::ostream &output;
+    std::ifstream &input;
+    std::ofstream &output;
     std::fstream *treeStream; // optional
 
-    std::string extractSrcDecode();
-    std::string extractSrcEncode();
     unsigned *getFrequencies(const char *src) const;
     std::vector<Node *> createLeaves(unsigned *table) const;
     HuffmanTable getEncodedTable(std::vector<Node *> &leaves) const;
     HuffmanTable getdecodedTable(std::vector<std::string> &leaves) const;
+    std::string extractSrcDecode();
+    std::string extractSrcEncode();
     void toOutputEncoded(const char *str, HuffmanTable &t);
     void toOutputDecoded(const char *str);
     void calculateCompression(const char *str, HuffmanTable &t) const;
 
 public:
-    HuffmanCode(std::istream &in = std::cin, std::ostream &out = std::cout, std::fstream *treeS = nullptr);
+    HuffmanCode(std::ifstream &in, std::ofstream &out, std::fstream *treeS = nullptr);
     void operator()(Mode m);
     void encode();
     void decode();
