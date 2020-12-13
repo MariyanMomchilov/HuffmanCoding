@@ -26,7 +26,14 @@ int main(int argc, char *argv[])
     doctest::Context().run();
 #else
     CLI cmd(argc, argv);
-    cmd.run();
+    try
+    {
+        cmd.run();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 #endif
 
     return 0;

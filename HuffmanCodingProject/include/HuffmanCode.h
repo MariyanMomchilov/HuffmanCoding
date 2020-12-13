@@ -30,6 +30,7 @@ private:
     std::string extractSrcEncode();
     void toOutputEncoded(const char *str, HuffmanTable &t);
     void toOutputDecoded(const char *str);
+    void alternativeEncoding(const char *str, HuffmanTable &t) const;
     void calculateCompression(const char *str, HuffmanTable &t) const;
 
 public:

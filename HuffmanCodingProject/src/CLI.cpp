@@ -36,8 +36,6 @@ void CLI::parseCommand(Builder &builder)
             builder.buildMode(Mode::Compression);
         else if (!strcmp(argv[i], "-d"))
             builder.buildMode(Mode::Decompression);
-        else if (!strcmp(argv[i], "-a"))
-            continue; // TO DO
         else if (!strcmp(argv[i], "-i"))
             builder.buildInput(getStr());
         else if (!strcmp(argv[i], "-o"))

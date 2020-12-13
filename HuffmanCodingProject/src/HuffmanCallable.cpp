@@ -55,8 +55,16 @@ void HuffmanCallable::operator()()
 {
     if (is != nullptr && os != nullptr)
     {
+        if (!is->is_open())
+            throw std::invalid_argument("Invalid input file\n");
+        if (!os->is_open())
+            throw std::invalid_argument("Invalid output file\n");
+        if (treeS != nullptr && !treeS->is_open())
+            throw std::invalid_argument("Invalid tree file\n");
+
         HuffmanCode code(*is, *os, treeS);
         code(mode);
+
         if (treeViz != nullptr)
             code.visualizeTree(*treeViz);
     }

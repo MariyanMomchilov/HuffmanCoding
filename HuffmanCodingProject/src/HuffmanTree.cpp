@@ -176,7 +176,7 @@ void HuffmanTree::toScheme(std::ostream &os) const
     toScheme(os, root);
 }
 
-Node *HuffmanTree::fromSchemeRec(std::istream &is) // TO DO REFACTOR ERROR HANDLING
+Node *HuffmanTree::fromSchemeRec(std::istream &is)
 {
     if (is.get() != '(')
         throw std::domain_error("Invalid tree file. Expected \'(\'\n");

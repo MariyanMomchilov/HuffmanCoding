@@ -1,6 +1,7 @@
 #include "../include/HuffmanCode.h"
 #include <cassert>
 #include <cstring>
+#include <vector>
 
 HuffmanCode::HuffmanCode(std::ifstream &in, std::ofstream &out, std::fstream *treeS) : input(in), output(out), treeStream(treeS) {}
 
@@ -90,6 +91,7 @@ void HuffmanCode::encode()
 
     toOutputEncoded(src, encodedTable);
     calculateCompression(src, encodedTable);
+    //alternativeEncoding(src, encodedTable);
 }
 
 void HuffmanCode::decode()
@@ -157,4 +159,40 @@ void HuffmanCode::toOutputDecoded(const char *str)
 {
     while (*str)
         output << tree.getDecoded(str);
+}
+
+void HuffmanCode::alternativeEncoding(const char *str, HuffmanTable &t) const
+{
+    if (*str == 0)
+        return;
+
+    std::string result;
+    while (*str)
+    {
+        result += t[*str++];
+    }
+
+    size_t resSize = result.size();
+
+    std::vector<std::string> splitted;
+    size_t pos = 0;
+    std::string toSplitted;
+    for (int i = 0; i < resSize; i++)
+    {
+        if (pos != 0 && pos % 8 == 0)
+        {
+            splitted.push_back(toSplitted);
+            toSplitted = "";
+            pos = 0;
+        }
+        toSplitted += result[i];
+        pos++;
+    }
+    if (toSplitted != "")
+        splitted.push_back(toSplitted);
+
+    std::cout << "\n------------- bytes to ints -------------\n";
+    for (int i = 0; i < splitted.size(); i++)
+        std::cout << std::stoi(splitted[i], nullptr, 2) << ' ';
+    std::cout << '\n';
 }
